@@ -1,0 +1,63 @@
+services:
+
+  evolution-api:
+    container_name: evolution_api
+    image: evoapicloud/evolution-api:v2.3.7
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - evolution_instances:/evolution/instances
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    container_name: postgres_chat
+    image: postgres:15
+    command: ["postgres", "-c", "max_connections=1000"]
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=evolution
+    volumes:
+      - postgres_data_chat:/var/lib/postgresql/data
+    expose:
+      - 5432
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: >
+      redis-server --port 6379 --appendonly yes
+    volumes:
+      - redis_chat:/data
+    ports:
+      - 6379:6379
+
+  bot:
+    build: .
+    container_name: bot
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - evolution-api
+      - redis
+    restart: always
+    volumes:
+      - ./vectorstore_data:/app/vectorstore
+      - ./rag_files:/app/rag_files
+
+volumes:
+  evolution_instances:
+  postgres_data_chat:
+  redis_chat:
+  vectorstore_data:
+  rag_files:

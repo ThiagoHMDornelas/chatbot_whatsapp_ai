@@ -1,4 +1,7 @@
-vectorstore_data
+# Vectorstore / RAG gerados
+vectorstore/
+vectorstore_data/
+rag_files/processed/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -181,3 +184,8 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# Arquivos internos de desenvolvimento / tooling (nao versionados)
+/AGENTS.md
+/.opencode/
+/fluxo.txt

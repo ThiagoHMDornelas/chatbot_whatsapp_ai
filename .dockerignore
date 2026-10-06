@@ -1,0 +1,21 @@
+# Ambiente virtual / Git / caches
+.venv
+venv
+env
+.git
+.gitignore
+.gitattributes
+.github
+__pycache__
+*.py[cod]
+
+# Arquivos internos de desenvolvimento / tooling
+AGENTS.md
+
+# Banco / vectorstore gerado localmente
+vectorstore
+vectorstore_data
+rag_files/processed
+
+# Outros
+*.log

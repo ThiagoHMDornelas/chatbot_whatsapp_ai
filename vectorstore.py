@@ -27,7 +27,7 @@ def load_documents():
 
 
 def _has_documents(vectorstore: Chroma) -> bool:
-    return bool(vectorstore.get()['ids'])
+    return bool(vectorstore.get(limit=1, include=[])['ids'])
 
 
 def get_vectorstore():

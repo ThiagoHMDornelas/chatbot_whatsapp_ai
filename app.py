@@ -1,11 +1,13 @@
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 
+from config import WEBHOOK_TOKEN
 from message_buffer import buffer_message, get_rag_chain
 
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -46,6 +48,13 @@ def extract_text_message(payload: dict):
     return chat_id, text.strip()
 
 
+def webhook_autorizado(request: Request) -> bool:
+    if not WEBHOOK_TOKEN:
+        return True
+    token = request.query_params.get('token') or request.headers.get('x-webhook-token')
+    return token == WEBHOOK_TOKEN
+
+
 @app.get('/health')
 async def health():
     return {'status': 'ok'}
@@ -53,6 +62,9 @@ async def health():
 
 @app.post('/webhook')
 async def webhook(request: Request):
+    if not webhook_autorizado(request):
+        raise HTTPException(status_code=401, detail='unauthorized')
+
     payload = await request.json()
 
     event = payload.get('event')

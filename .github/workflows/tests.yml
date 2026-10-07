@@ -9,7 +9,7 @@ on:
 jobs:
   testes:
     name: Testes + Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     env:
       OPENAI_API_KEY: sk-ci-placeholder
@@ -19,7 +19,7 @@ jobs:
       RAG_FILES_DIR: rag_files
       CACHE_REDIS_URI: redis://localhost:6379/0
       BUFFER_KEY_SUFIX: _msg_buffer
-      DEBOUNCE_SECONDS: "10"
+      DEBOUNCE_SECONDS: "5"
       BUFFER_TTL: "300"
 
     steps:
@@ -42,4 +42,4 @@ jobs:
         run: flake8
 
       - name: Executar testes
-        run: pytest
+        run: pytest -ra --tb=short

@@ -9,11 +9,16 @@
 
 Chatbot de atendimento para WhatsApp com **IA generativa e RAG** (Retrieval-Augmented Generation). O projeto simula o **suporte técnico de um notebook**: as respostas são geradas a partir de uma base de conhecimento (manuais em PDF/TXT) indexada em um banco vetorial, mantendo o contexto da conversa por contato.
 
+![Arquitetura do Chatbot WhatsApp AI](docs/img/chatbot_architecture.png)
+
+*Arquitetura — Evolution API, bot (FastAPI), RAG (Chroma + OpenAI), Redis e PostgreSQL.*
+
 ## Sumário
 
 - [Visão geral](#visão-geral)
 - [Como funciona](#como-funciona)
   - [Agrupamento de mensagens (debounce)](#agrupamento-de-mensagens-debounce)
+- [Exemplo de atendimento](#exemplo-de-atendimento)
 - [Funcionalidades](#funcionalidades)
 - [Tecnologias](#tecnologias)
 - [Estrutura do projeto](#estrutura-do-projeto)
@@ -69,6 +74,12 @@ Para não responder a cada mensagem fragmentada, o bot aguarda um período de si
 - **Janela menor** (ex.: 3s): resposta mais rápida e perguntas separadas, mas fragmentos digitados devagar podem gerar respostas separadas.
 
 > O bot **sempre espera o tempo inteiro de silêncio** antes de responder — por isso um valor muito alto deixa a conversa lenta. O padrão é **5s** (bom equilíbrio). Para ajustar, mude `DEBOUNCE_SECONDS` no `.env` e recrie o bot (`docker compose up -d`).
+
+## Exemplo de atendimento
+
+Simulação de uma conversa de suporte do notebook — as respostas são geradas pela IA a partir do manual indexado (RAG):
+
+![Exemplo de conversa no WhatsApp](docs/img/chatbot_whatsapp.png)
 
 ## Funcionalidades
 

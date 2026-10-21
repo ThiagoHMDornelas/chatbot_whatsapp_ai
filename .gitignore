@@ -186,7 +186,6 @@ cython_debug/
 .cursorindexingignore
 
 # Arquivos internos de desenvolvimento / tooling (nao versionados)
-/AGENTS.md
 /.opencode/
 /fluxo.txt
 /.playwright-mcp/
